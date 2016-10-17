@@ -19,17 +19,42 @@ body
 
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li.active
+            li
               a(href='.') Pokaż wszystkie cytaty
 
-            li
+            li.active
               a(href='add_cite.html') Dodaj cytat
 
             li
               a(href='add_teacher') Dodaj nauczyciela
 
   main.container
+    form.form-horizontal
+      .form-group
+        label.col-sm-2.control-label(for='text') Treść cytatu
+        .col-sm-10
+          textarea(placeholder="Treść", name="text")#text.form-control
+
+      .form-group
+        label.col-sm-2.control-label(for='teacher') Nauczyciel
+        .col-sm-10
+          select(name="teacher")#teacher.form-control
+            option 1
+            option 2
+            option 3
+
+      .form-group
+        label.col-sm-2.control-label(for='date') Data wypowiedzenia
+        .col-sm-10
+          input(type="datetime-local" placeholder="Data wypowiedzenia", name="date")#date.form-control
+
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          button(type="submit", name="submit")#submit.btn.btn-primary Dodaj
+
+
+
 
   script(type="text/javascript", src="http://code.jquery.com/jquery-1.11.3.min.js")
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
-  script(src="./dist/js/main.min.js", charset="utf-8")
+  script(src="./dist/js/add_cite.min.js", charset="utf-8")

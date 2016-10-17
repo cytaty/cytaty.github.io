@@ -123,10 +123,23 @@ gulp.task('js-old', function() {
 });
 
 gulp.task('js', function () {
-  return browserify({entries: './js/script.js', debug: true})
+  browserify({entries: './js/main.js', debug: true})
       .transform("babelify", { presets: ["es2015"] })
       .bundle()
-      .pipe(source('script.min.js'))
+      .pipe(source('main.min.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init())
+      .pipe(uglify())
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dist/js'))
+      .pipe(
+        browserSync.reload({stream: true})
+      );
+
+  browserify({entries: './js/add_cite.js', debug: true})
+      .transform("babelify", { presets: ["es2015"] })
+      .bundle()
+      .pipe(source('add_cite.min.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init())
       .pipe(uglify())

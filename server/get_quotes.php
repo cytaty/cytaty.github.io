@@ -8,16 +8,14 @@
   $rowsQuery->execute();
   $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
 
-  $teachersQuery = $db->prepare("SELECT * FROM `teachers`");
-  $teachersQuery->execute();
-  $teachers = $teachersQuery->fetchAll(PDO::FETCH_ASSOC);
+  include 'get_teachers.php';
 
   $quotes = array();
 
   foreach ($rows as $row) {
     $data = array(
       "text" => $row["text"],
-      "data" => $row["date"],
+      "dateSaid" => $row["date_said"],
       "teacher" => $teachers[ $row["teacher_id"]-1 ]["name"]
     );
 

@@ -16,12 +16,12 @@
   foreach ($rows as $row) {
     $data = array(
       "text" => $row["text"],
-      "data" => $row["date"],
+      "date_said" => $row["date_said"],
       "teacher" => $teachers[ $row["teacher_id"]-1 ]["name"]
     );
 
     array_push($quotes, $data);
   }
 
-  echo $_GET["test"];
+  print_r( $_GET );
 ?>

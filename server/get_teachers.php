@@ -5,11 +5,18 @@
 
   require_once 'passwords.php';
 
-  $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
+  try {
+    $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
 
-  $teachersQuery = $db->prepare("SELECT * FROM `teachers`");
-  $teachersQuery->execute();
-  $teachers = $teachersQuery->fetchAll(PDO::FETCH_ASSOC);
+    $teachersQuery = $db->prepare("SELECT * FROM `teachers`");
+    $teachersQuery->execute();
+    $teachers = $teachersQuery->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    $error = array();
+    $error["error"] = utf8_encode($e->getMessage());
+    echo json_encode($error);
+    die();
+  }
 
   if( defined('TEST_SUITE') && TEST_SUITE == __FILE__ ){
     $teachersToPrint = array();

@@ -11,6 +11,7 @@ $(document).ready(function() {
         $("select#teacher").append( $("<option></option>").html(msg[k].name).attr("id", msg[k].id) );
       }
     }
+    $("select#teacher").append( $("<option></option>").html("5").attr("id", 5) );
 
     $("form").submit(function(e){
       const data = $(this).serializeArray();
@@ -26,14 +27,19 @@ $(document).ready(function() {
         data: dataToSend
       })
       .done(function( msg ) {
-        if( typeof(msg.error) == "undefined" ){
-          const $cont = $("main.container");
+        msg = (typeof(msg) == "object") ? msg : JSON.parse(msg);
+        const $cont = $("main.container");
 
+        if( typeof(msg.error) == "undefined" ){
           $cont.find(".alert").remove();
           $cont.prepend( $("<div></div>").addClass("alert alert-success").html( "Wysłano cytat do zaakceptowania." ) );
 
           $("textarea#text, input#date").val("");
           $("select option:selected").prop("selected", false);
+        } else if(parseInt(msg.error_code) !== 0) {
+          $cont.find(".alert").remove();
+          $cont.prepend( $("<div></div>").addClass("alert alert-warning").html( msg.error ) );
+          console.warn( msg.error );
         } else {
           error( msg );
         }
@@ -51,6 +57,6 @@ function error(msg){
   $cont.append( $("<div></div>").addClass("alert alert-danger").html( "Przepraszamy, ale wystąpił problem z pobraniem cytatów.") );
 
   if( typeof(msg) != "undefined" ){
-    console.log( msg );
+    console.log( msg, msg.error_code );
   }
 }

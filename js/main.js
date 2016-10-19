@@ -4,6 +4,10 @@ $(document).ready(function() {
     url: "http://192.168.92.209/cytaty.github.io/server/get_quotes.php",
   })
   .done(function( msg ) {
+    console.log( msg );
+    msg = (typeof(msg) == "object") ? msg : JSON.parse(msg);
+
+
     if( typeof(msg.error) == "undefined" ){
       console.log( msg );
       const $cont = $("main.container");

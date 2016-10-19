@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     $.ajax({
       method: "GET",
-      url: "http://192.168.92.209/cytaty.github.io/server/add_teacher.php",
+      url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_teacher.php",
       data: dataToSend
     })
     .done(function( msg ) {

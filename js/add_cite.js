@@ -1,15 +1,19 @@
 $(document).ready(function() {
   $.ajax({
     method: "GET",
-    url: "http://192.168.92.209/cytaty.github.io/server/get_teachers.php"
+    url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/get_teachers.php"
   })
   .done(function( msg ) {
     $("select#teacher").html("");
 
-    for( let k in msg ){
-      if (msg.hasOwnProperty(k)) {
-        $("select#teacher").append( $("<option></option>").html(msg[k].name).attr("id", msg[k].id) );
+    if( Object.getOwnPropertyNames(msg).length > 0 ){
+      for( let k in msg ){
+        if (msg.hasOwnProperty(k)) {
+          $("select#teacher").append( $("<option></option>").html(msg[k].name).attr("id", msg[k].id) );
+        }
       }
+    } else {
+      $("main.container").html( $("<div></div>").addClass("alert alert-danger").html( "Nie znaleziono żadnych nauczycieli. Jeśli chcesz jakiegoś dodać to kliknij <a href='add_teacher.html'>tutaj</html>" ) );
     }
 
     $("form").submit(function(e){
@@ -22,7 +26,7 @@ $(document).ready(function() {
 
       $.ajax({
         method: "GET",
-        url: "http://192.168.92.209/cytaty.github.io/server/add_quote.php",
+        url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
         data: dataToSend
       })
       .done(function( msg ) {

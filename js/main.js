@@ -1,25 +1,29 @@
 $(document).ready(function() {
   $.ajax({
     method: "GET",
-    url: "http://192.168.92.209/cytaty.github.io/server/get_quotes.php",
+    url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/get_quotes.php",
   })
   .done(function( msg ) {
-    console.log( msg );
     msg = (typeof(msg) == "object") ? msg : JSON.parse(msg);
 
 
     if( typeof(msg.error) == "undefined" ){
       console.log( msg );
+
       const $cont = $("main.container");
             $cont.html("");
 
-      msg.forEach( (v) => {
-        const $block = $("<blockquote></blockquote>");
-              $block.append( $("<p></p>").html( v.text ) );
-              $block.append( $("<footer></footer>").html( v.teacher ) );
+      if( msg.length > 0 ){
+        msg.forEach( (v) => {
+          const $block = $("<blockquote></blockquote>");
+                $block.append( $("<p></p>").html( v.text ) );
+                $block.append( $("<footer></footer>").html( v.teacher ) );
 
-        $block.appendTo( $cont );
-      });
+          $block.appendTo( $cont );
+        });
+      } else {
+        $cont.append( $("<div></div>").addClass("alert alert-danger").html( "Przepraszamy, ale narazie nie ma żadnych cytatów. Aby dodać własny kliknij <a href='add_cite.html'>tutaj</a>." ) );
+      }
     } else {
       error( msg.error );
     }

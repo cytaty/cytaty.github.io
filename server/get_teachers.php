@@ -32,6 +32,6 @@
     header('content-type: application/json; charset=utf-8');
     header("access-control-allow-origin: *");
 
-    echo json_encode($teachersToPrint);
+    echo json_encode($teachersToPrint, JSON_FORCE_OBJECT);
   }
 ?>

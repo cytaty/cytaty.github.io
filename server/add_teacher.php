@@ -19,6 +19,15 @@
     $rowsQuery = $db->prepare("INSERT INTO `teachers`(`name`) VALUES (:name)");
     $rowsQuery->execute(array(':name' => $name));
 
+    $to      = 'bartosz@legiec.eu';
+    $subject = 'Dodano nowego nauczyciela!';
+    $message = '<html><head><title>Dodano nowego nauczyciela!</title></head><body>'.$name.'<br><a href="http://b.legiec.eu/cytaty/admin.php">Przejdź do panelu administracyjnego.</a></body></html>';
+    $headers  = 'MIME-Version: 1.0' . "\r\n" .
+    'Content-type: text/html; charset=UTF-8' . "\r\n" .
+    'From: notify@cytaty.github.io' . "\r\n" .
+    'Reply-To: notify@cytaty.github.io' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
     echo json_encode(array());
   } else {
     $error = array();

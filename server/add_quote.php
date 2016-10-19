@@ -30,6 +30,17 @@
     $rowsQuery->execute(array(':text' => $text, ':date' => $_GET["date"], 'teacher' => $_GET["teacher"]));
     $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
 
+    $to      = 'bartosz@legiec.eu';
+    $subject = 'Dodano nowy cytat!';
+    $message = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br><a href="http://b.legiec.eu/cytaty/admin.php">Przejdź do panelu administracyjnego.</a></body></html>';
+    $headers  = 'MIME-Version: 1.0' . "\r\n" .
+    'Content-type: text/html; charset=UTF-8' . "\r\n" .
+    'From: notify@cytaty.github.io' . "\r\n" .
+    'Reply-To: notify@cytaty.github.io' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+mail($to, $subject, $message, $headers);
+
     echo json_encode(array());
   } else {
     $error = array();

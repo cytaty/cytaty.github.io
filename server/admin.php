@@ -52,15 +52,13 @@
   foreach ($teachersOut as $key => $value) {
     $teachers[ $value["id"] ] = $value;
   }
+
 ?>
-
-
-
-
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='shortcut icon' type='image/x-icon' href='./favicon.ico' />
   <title>Cytaty nauczycieli &alpha;</title>
   <link rel="stylesheet" href="../css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/style.min.css">

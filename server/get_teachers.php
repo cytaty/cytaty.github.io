@@ -17,7 +17,8 @@
     foreach ($teachers as $teacher) {
       $teachersToPrint[ $teacher["id"]*1 ] = array(
         "name" => $teacher["name"],
-        "img" => $teacher["img"]
+        "img" => $teacher["img"],
+        "id" => $teacher["id"]
       );
     }
 

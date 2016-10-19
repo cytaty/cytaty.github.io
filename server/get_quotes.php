@@ -2,11 +2,18 @@
   header('content-type: application/json; charset=utf-8');
   header("access-control-allow-origin: *");
   require_once 'passwords.php';
-  $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
 
-  $rowsQuery = $db->prepare("SELECT * FROM `quotes`");
-  $rowsQuery->execute();
-  $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
+  try {
+    $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
+    $rowsQuery = $db->prepare("SELECT * FROM `quotes` ORDER BY `quotes`.`id` DESC");
+    $rowsQuery->execute();
+    $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    $error = array();
+    $error["error"] = utf8_encode($e->getMessage());
+    echo json_encode($error);
+    die();
+  }
 
   include 'get_teachers.php';
 

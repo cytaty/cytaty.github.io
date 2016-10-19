@@ -28,7 +28,7 @@ var sO = {
         return snippet + match;
       }
     }
-  }
+  },
 };
 
 var server = argv.proxy || argv.p || false;

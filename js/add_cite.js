@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     for( let k in msg ){
       if (msg.hasOwnProperty(k)) {
-        $("select#teacher").append( $("<option></option>").html(msg[k].name) );
+        $("select#teacher").append( $("<option></option>").html(msg[k].name).attr("id", msg[k].id) );
       }
     }
 
@@ -16,12 +16,9 @@ $(document).ready(function() {
       const data = $(this).serializeArray();
       let dataToSend = {};
 
-
-      for (var k in data) {
-        if (data.hasOwnProperty(k)) {
-          dataToSend[data[k].name] = data[k].value;
-        }
-      }
+      dataToSend.text = $("#text").val();
+      dataToSend.teacher = $("#teacher option:selected").attr("id");
+      dataToSend.date = $("#date").val();
 
       $.ajax({
         method: "GET",
@@ -29,10 +26,31 @@ $(document).ready(function() {
         data: dataToSend
       })
       .done(function( msg ) {
-        console.log( msg );
+        if( typeof(msg.error) == "undefined" ){
+          const $cont = $("main.container");
+
+          $cont.find(".alert").remove();
+          $cont.prepend( $("<div></div>").addClass("alert alert-success").html( "Wysłano cytat do zaakceptowania." ) );
+
+          $("textarea#text, input#date").val("");
+          $("select option:selected").prop("selected", false);
+        } else {
+          error( msg );
+        }
       });
 
       return false;
     });
   });
 });
+
+function error(msg){
+  const $cont = $("main.container");
+        $cont.html("");
+
+  $cont.append( $("<div></div>").addClass("alert alert-danger").html( "Przepraszamy, ale wystąpił problem z pobraniem cytatów.") );
+
+  if( typeof(msg) != "undefined" ){
+    console.log( msg );
+  }
+}

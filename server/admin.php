@@ -76,9 +76,11 @@
           <li><a href="http://cytaty.github.io/add_teacher.html">Dodaj nauczyciela</a></li>
         </ul>
 
+        <?php if(isset($_SESSION["auth"]) && $_SESSION["auth"] === true) { ?>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="?logout">Wyloguj się</a></li>
         </ul>
+        <?php } ?>
       </div>
     </div>
   </nav>

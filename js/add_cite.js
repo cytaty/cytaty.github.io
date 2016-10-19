@@ -11,7 +11,6 @@ $(document).ready(function() {
         $("select#teacher").append( $("<option></option>").html(msg[k].name).attr("id", msg[k].id) );
       }
     }
-    $("select#teacher").append( $("<option></option>").html("5").attr("id", 5) );
 
     $("form").submit(function(e){
       const data = $(this).serializeArray();

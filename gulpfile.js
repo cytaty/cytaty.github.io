@@ -148,6 +148,19 @@ gulp.task('js', function () {
       .pipe(
         browserSync.reload({stream: true})
       );
+
+  browserify({entries: './js/add_teacher.js', debug: true})
+      .transform("babelify", { presets: ["es2015"] })
+      .bundle()
+      .pipe(source('add_teacher.min.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init())
+      .pipe(uglify())
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dist/js'))
+      .pipe(
+        browserSync.reload({stream: true})
+      );
 });
 
 

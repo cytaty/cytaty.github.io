@@ -17,13 +17,6 @@
     die();
   }
 
-  $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
-
-  $teachersQuery = $db->prepare("SELECT * FROM `teachers`");
-  $teachersQuery->execute();
-  $teachersOut = $teachersQuery->fetchAll(PDO::FETCH_ASSOC);
-  $teachers = array();
-
   foreach ($teachersOut as $key => $value) {
     $teachers[ $value["id"] ] = $value;
   }

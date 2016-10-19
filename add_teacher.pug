@@ -29,9 +29,19 @@ body
               a(href='add_teacher.html') Dodaj nauczyciela
 
   main.container
-    .alert.alert-info
-      p Przepraszamy, ale ten moduł nie jest jeszcze gotowy :(
+    form.form-horizontal
+      .form-group
+        label.col-sm-2.control-label(for='text') Imię i nazwisko
+        .col-sm-10
+          input(type="text" placeholder="Imię i nazwisko", name="name", required)#name.form-control
+
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          button(type="submit", name="submit")#submit.btn.btn-primary Dodaj
+
+
+
 
   script(type="text/javascript", src="https://code.jquery.com/jquery-3.1.1.min.js")
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
-  //- script(src="./dist/js/main.min.js", charset="utf-8")
+  script(src="./dist/js/add_teacher.min.js", charset="utf-8")

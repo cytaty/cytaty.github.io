@@ -26,13 +26,15 @@
     $text = htmlentities( strip_tags($text) );
     $text = str_replace("\n", "<br>", $text);
 
-    $rowsQuery = $db->prepare("INSERT INTO `quotes`(`text`, `date_said`, `teacher_id`) VALUES (:text, :date, :teacher)");
-    $rowsQuery->execute(array(':text' => $text, ':date' => $_GET["date"], 'teacher' => $_GET["teacher"]));
+    $name = (isset($_GET["name"])) ? $_GET["name"] : "";
+
+    $rowsQuery = $db->prepare("INSERT INTO `quotes`(`text`, `date_said`, `teacher_id`, `who_added`) VALUES (:text, :date, :teacher, :name)");
+    $rowsQuery->execute(array(':text' => $text, ':date' => $_GET["date"], 'teacher' => $_GET["teacher"], 'name' => $name));
     $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
 
     $to      = 'bartosz@legiec.eu';
     $subject = 'Dodano nowy cytat!';
-    $message = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br><a href="http://b.legiec.eu/cytaty/admin.php">Przejdź do panelu administracyjnego.</a></body></html>';
+    $message = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br>- '.$teachers[ $_GET["teacher"] ]["name"].'<br><a href="http://b.legiec.eu/cytaty/admin.php">Przejdź do panelu administracyjnego.</a></body></html>';
     $headers  = 'MIME-Version: 1.0' . "\r\n" .
     'Content-type: text/html; charset=UTF-8' . "\r\n" .
     'From: notify@cytaty.github.io' . "\r\n" .

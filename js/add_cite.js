@@ -23,10 +23,12 @@ $(document).ready(function() {
       dataToSend.text = $("#text").val();
       dataToSend.teacher = $("#teacher option:selected").attr("id");
       dataToSend.date = $("#date").val();
+      dataToSend.name = $("#name").val();
 
       $.ajax({
         method: "GET",
-        url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
+        // url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
+        url: "http://localhost/cytaty.github.io/server/add_quote.php",
         data: dataToSend
       })
       .done(function( msg ) {

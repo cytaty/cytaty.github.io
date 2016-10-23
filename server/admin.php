@@ -67,7 +67,7 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
@@ -97,6 +97,7 @@
         $id = $value["id"];
         $text = $value["text"];
         $teacher_id = $value["teacher_id"];
+        $who_added = $value["who_added"];
         $teacher = $teachers[$teacher_id]["name"];
         $added = strtotime($value["date_added"]);
 
@@ -108,6 +109,7 @@
           echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
 
           echo '<footer>'.$teacher.'</footer>';
+          echo '<span class="label label-info">'.$who_added.'</span>';
 
           echo '<div class="controls">';
             echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
@@ -157,6 +159,7 @@
             $id = $value["id"];
             $text = $value["text"];
             $teacher_id = $value["teacher_id"];
+            $who_added = $value["who_added"];
             $teacher = $teachers[$teacher_id]["name"];
             $added = strtotime($value["date_added"]);
 
@@ -166,6 +169,7 @@
             echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
 
             echo '<footer>'.$teacher.'</footer>';
+            echo '<span class="label label-info">'.$who_added.'</span>';
 
             echo '<div class="controls">';
               echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
@@ -201,7 +205,7 @@
     </div>
     <?php } else { ?>
       <form class="form-signin" action="admin.php" method="post">
-        <input type="text" id="login" name="login" class="form-control" placeholder="Login" required="" autofocus="">
+        <input type="text" id="login" name="login" class="form-control" placeholder="Login" required="" autofocus="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <input type="password" id="password" name="password" class="form-control" placeholder="Hasło" required="">
         <!-- <div class="checkbox">
           <label>

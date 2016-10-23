@@ -27,8 +27,7 @@ $(document).ready(function() {
 
       $.ajax({
         method: "GET",
-        // url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
-        url: "http://localhost/cytaty.github.io/server/add_quote.php",
+        url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
         data: dataToSend
       })
       .done(function( msg ) {

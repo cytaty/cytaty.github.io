@@ -34,7 +34,12 @@
 
     $to      = 'bartosz@legiec.eu';
     $subject = 'Dodano nowy cytat!';
-    $message = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br>- '.$teachers[ $_GET["teacher"] ]["name"].'<br><a href="http://b.legiec.eu/cytaty/admin.php">Przejdź do panelu administracyjnego.</a></body></html>';
+    $message  = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br>- '.$teachers[ $_GET["teacher"] ]["name"].'<br>';
+    if( $name !== "" ){
+      $message .= 'Dodano przez: '.$name.'<br>';
+    }
+
+    $message .= '<a href="http://b.legiec.eu/cytaty/admin.php">Przejdź do panelu administracyjnego.</a></body></html>';
     $headers  = 'MIME-Version: 1.0' . "\r\n" .
     'Content-type: text/html; charset=UTF-8' . "\r\n" .
     'From: notify@cytaty.github.io' . "\r\n" .

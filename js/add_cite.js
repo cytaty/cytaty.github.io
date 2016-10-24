@@ -38,7 +38,7 @@ $(document).ready(function() {
           $cont.find(".alert").remove();
           $cont.prepend( $("<div></div>").addClass("alert alert-success").html( "Wysłano cytat do zaakceptowania." ) );
 
-          $("textarea#text, input#date").val("");
+          $("textarea#text, input#date, input#name").val("");
           $("select option:selected").prop("selected", false);
         } else if(parseInt(msg.error_code) !== 0) {
           $cont.find(".alert").remove();

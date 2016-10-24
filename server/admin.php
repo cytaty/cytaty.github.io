@@ -180,6 +180,7 @@
           echo '<div class="controls">';
             echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
             echo '<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+            echo '<button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
           echo '</div>';
 
           echo '</blockquote>';
@@ -241,6 +242,7 @@
               echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
               echo '<button class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
               echo '<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+              echo '<button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
             echo '</div>';
 
             echo '</blockquote>';

@@ -86,4 +86,27 @@ $(document).ready(function() {
     }
   });
 
+  $("blockquote.quote .controls .btn-info").on("click", function(){
+    if( confirm("Czy na pewno chcesz usunąć ten cytat? Ta opcja jest nieodwracalna!") ){
+      const $parent = $(this).parents("blockquote");
+
+      if( $(this).html() !== $(this).data("start") ){
+        const id = $parent.data("id");
+        const dataToSend = {
+          "id": id
+        };
+
+        $.ajax({
+          method: "POST",
+          url: "remove_quote.php",
+          data: dataToSend
+        })
+        .done(function( msg ) {
+          $("blockquote[data-id='"+id+"']").remove();
+          $parent.remove();
+        });
+      }
+    }
+  });
+
 });

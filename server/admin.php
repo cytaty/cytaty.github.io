@@ -53,9 +53,8 @@
   if( isset($_POST["login"]) && isset($_POST["password"]) && count($password) == 1 ){
     if( password_verify($_POST["password"], $password[0]["password"]) ){
       $_SESSION["auth"] = true;
-      $_POST["remeberMe"] = true;
 
-      if( $_POST["remeberMe"] === true ){
+      if( isset($_POST["remember-me"]) ){
         try {
           $selector = bin2hex(random_bytes(6));
           $validator = bin2hex(random_bytes(32));
@@ -116,8 +115,6 @@
   foreach ($teachersOut as $key => $value) {
     $teachers[ $value["id"] ] = $value;
   }
-
-  // $_SESSION["auth"] = false;
 
 ?>
 <!DOCTYPE html>
@@ -273,11 +270,11 @@
       <form class="form-signin" action="admin.php" method="post">
         <input type="text" id="login" name="login" class="form-control" placeholder="Login" required="" autofocus="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <input type="password" id="password" name="password" class="form-control" placeholder="Hasło" required="">
-        <!-- <div class="checkbox">
+        <div class="checkbox">
           <label>
-            <input type="checkbox" value="remember-me"> Zapamiętaj mnie
+            <input type="checkbox" id="remember-me" name="remember-me"> Zapamiętaj mnie
           </label>
-        </div> -->
+        </div>
         <br>
         <button class="btn btn-primary btn-block" type="submit">Zaloguj się</button>
         <?php if( isset($_SESSION["error"]) && $_SESSION["error"] == true ) { ?>

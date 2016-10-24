@@ -30,6 +30,9 @@
   if( isset($_POST["login"]) && isset($_POST["password"]) && count($password) == 1 ){
     if( password_verify($_POST["password"], $password[0]["password"]) ){
       $_SESSION["auth"] = true;
+      unset($_POST);
+      header('Location: '.$_SERVER['PHP_SELF']);
+      die();
     } else {
       $_SESSION["error"] = true;
     }
@@ -40,9 +43,6 @@
   if( isset($_GET["logout"]) ){
     $_SESSION["auth"] = false;
   }
-
-
-
 
   include 'get_teachers.php';
 

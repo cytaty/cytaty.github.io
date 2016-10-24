@@ -39,6 +39,9 @@
 
       if( password_verify($validator, $GLOBALS["user"][0]["validator"]) ){
         $_SESSION["auth"] = true;
+      } else {
+        setcookie('rememberMe', null, -1);
+        $_SESSION["auth"] = false;
       }
     } catch (PDOException $e) {
       $error = array();

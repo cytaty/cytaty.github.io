@@ -9,9 +9,10 @@
     $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
 
     if( isset($_POST["login"]) && isset($_POST["password"]) ){
-      $passwordQuery = $db->prepare("SELECT `password` FROM `users` WHERE `username` = :user");
+      $passwordQuery = $db->prepare("SELECT `id`, `password` FROM `users` WHERE `username` = :user");
       $passwordQuery->execute(array(":user" => $_POST["login"]));
       $password = $passwordQuery->fetchAll(PDO::FETCH_ASSOC);
+      $GLOBALS["user"] = $password;
     }
 
     $quotesQuery = $db->prepare("SELECT * FROM `quotes` ORDER BY `id` DESC");
@@ -27,9 +28,54 @@
 
   $_SESSION["error"] = false;
 
+  if( isset($_COOKIE["rememberMe"]) && ( !isset($_SESSION["auth"]) || $_SESSION["auth"] === false) ){
+    try {
+      $cookie = explode("::", $_COOKIE["rememberMe"]);
+      $selector = $cookie[0];
+      $validator = $cookie[1];
+      $cookieQuery = $db->prepare("SELECT `validator`, `userid` FROM `auth_tokens` WHERE `selector` = :selector");
+      $cookieQuery->execute(array(":selector" => $selector));
+      $GLOBALS["user"] = $cookieQuery->fetchAll(PDO::FETCH_ASSOC);
+
+      if( password_verify($validator, $GLOBALS["user"][0]["validator"]) ){
+        $_SESSION["auth"] = true;
+      }
+    } catch (PDOException $e) {
+      $error = array();
+      $error["error"] = utf8_encode($e->getMessage());
+      echo json_encode($error);
+      die();
+    }
+  }
+
+
+
   if( isset($_POST["login"]) && isset($_POST["password"]) && count($password) == 1 ){
     if( password_verify($_POST["password"], $password[0]["password"]) ){
       $_SESSION["auth"] = true;
+      $_POST["remeberMe"] = true;
+
+      if( $_POST["remeberMe"] === true ){
+        try {
+          $selector = bin2hex(random_bytes(6));
+          $validator = bin2hex(random_bytes(32));
+          $expires = time()+15778463;
+          $value = $selector."::".$validator;
+
+          $userid = (isset($GLOBALS["user"][0]["id"])) ? $GLOBALS["user"][0]["id"] : $GLOBALS["user"][0]["userid"];
+
+          $cookieQuery = $db->prepare("INSERT INTO `auth_tokens` (`selector`, `validator`, `userid`, `expires`) VALUES (:selector, :validator, :userid, :expires)");
+          $cookieQuery->execute(array(":selector" => $selector, ":validator" => password_hash($validator, PASSWORD_DEFAULT), ":userid" => $userid, ":expires" => date("Y-m-d H:i:s", $expires) ));
+
+          setcookie("rememberMe", $value, $expires);
+        } catch (PDOException $e) {
+          $error = array();
+          $error["error"] = utf8_encode($e->getMessage());
+          echo json_encode($error);
+          die();
+        }
+      }
+
       unset($_POST);
       header('Location: '.$_SERVER['PHP_SELF']);
       die();
@@ -40,8 +86,26 @@
     $_SESSION["error"] = true;
   }
 
-  if( isset($_GET["logout"]) ){
+  if( isset($_GET["logout"]) && $_SESSION["auth"] === true ){
+    if( isset($_COOKIE["rememberMe"]) ){
+      try {
+        $cookie = explode("::", $_COOKIE["rememberMe"]);
+        $selector = $cookie[0];
+        $cookieQuery = $db->prepare("DELETE FROM `auth_tokens` WHERE `selector` = :selector");
+        $cookieQuery->execute(array(":selector" => $selector));
+
+        unset( $_COOKIE["rememberMe"] );
+        setcookie('rememberMe', null, -1);
+      } catch (PDOException $e) {
+        $error = array();
+        $error["error"] = utf8_encode($e->getMessage());
+        echo json_encode($error);
+        die();
+      }
+    }
     $_SESSION["auth"] = false;
+    header('Location: '.$_SERVER['PHP_SELF']);
+    die();
   }
 
   include 'get_teachers.php';
@@ -52,6 +116,8 @@
   foreach ($teachersOut as $key => $value) {
     $teachers[ $value["id"] ] = $value;
   }
+
+  // $_SESSION["auth"] = false;
 
 ?>
 <!DOCTYPE html>

@@ -22,7 +22,7 @@ $(document).ready(function() {
       };
 
       $.ajax({
-        method: "GET",
+        method: "POST",
         url: "update_quote.php",
         data: dataToSend
       })
@@ -50,7 +50,7 @@ $(document).ready(function() {
       };
 
       $.ajax({
-        method: "GET",
+        method: "POST",
         url: "update_quote.php",
         data: dataToSend
       })
@@ -75,7 +75,7 @@ $(document).ready(function() {
       };
 
       $.ajax({
-        method: "GET",
+        method: "POST",
         url: "update_quote.php",
         data: dataToSend
       })

@@ -6,7 +6,7 @@ $(document).ready(function() {
     dataToSend.name = $("#name").val();
 
     $.ajax({
-      method: "GET",
+      method: "POST",
       url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_teacher.php",
       data: dataToSend
     })

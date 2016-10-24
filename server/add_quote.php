@@ -21,20 +21,20 @@
     $teachers[ $value["id"] ] = $value;
   }
 
-  if( isset($_GET["text"]) && isset($_GET["date"]) && isset($_GET["teacher"]) && isset( $teachers[ $_GET["teacher"] ] ) ){
-    $text = $_GET["text"];
+  if( isset($_POST["text"]) && isset($_POST["date"]) && isset($_POST["teacher"]) && isset( $teachers[ $_POST["teacher"] ] ) ){
+    $text = $_POST["text"];
     $text = htmlentities( strip_tags($text) );
     $text = str_replace("\n", "<br>", $text);
 
-    $name = (isset($_GET["name"])) ? $_GET["name"] : "";
+    $name = (isset($_POST["name"])) ? $_POST["name"] : "";
 
     $rowsQuery = $db->prepare("INSERT INTO `quotes`(`text`, `date_said`, `teacher_id`, `who_added`) VALUES (:text, :date, :teacher, :name)");
-    $rowsQuery->execute(array(':text' => $text, ':date' => $_GET["date"], 'teacher' => $_GET["teacher"], 'name' => $name));
+    $rowsQuery->execute(array(':text' => $text, ':date' => $_POST["date"], 'teacher' => $_POST["teacher"], 'name' => $name));
     $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
 
     $to      = 'bartosz@legiec.eu';
     $subject = 'Dodano nowy cytat!';
-    $message  = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br>- '.$teachers[ $_GET["teacher"] ]["name"].'<br>';
+    $message  = '<html><head><title>Dodano nowy cytat!</title></head><body>'.$text.'<br>- '.$teachers[ $_POST["teacher"] ]["name"].'<br>';
     if( $name !== "" ){
       $message .= 'Dodano przez: '.$name.'<br>';
     }
@@ -52,7 +52,7 @@
   } else {
     $error = array();
 
-    if( !isset( $teachers[ $_GET["teacher"] ] ) ){
+    if( !isset( $teachers[ $_POST["teacher"] ] ) ){
       $error["error"] = "Taki nauczyciel nie istnieje!";
       $error["error_code"] = "1";
     }

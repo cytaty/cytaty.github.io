@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $.ajax({
-    method: "GET",
+    method: "POST",
     url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/get_quotes.php",
   })
   .done(function( msg ) {

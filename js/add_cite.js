@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $.ajax({
-    method: "GET",
+    method: "POST",
     url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/get_teachers.php"
   })
   .done(function( msg ) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
       dataToSend.name = $("#name").val();
 
       $.ajax({
-        method: "GET",
+        method: "POST",
         url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
         data: dataToSend
       })

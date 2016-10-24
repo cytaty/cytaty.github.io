@@ -12,8 +12,8 @@
     die();
   }
 
-  if( isset($_GET["name"]) ){
-    $name = $_GET["name"];
+  if( isset($_POST["name"]) ){
+    $name = $_POST["name"];
     $name = htmlentities( strip_tags($name) );
 
     $rowsQuery = $db->prepare("INSERT INTO `teachers`(`name`) VALUES (:name)");

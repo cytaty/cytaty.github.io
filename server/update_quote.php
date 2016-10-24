@@ -20,8 +20,8 @@
     $teachers[ $value["id"] ] = $value;
   }
 
-  if( isset($_GET["id"]) ){
-    $id = $_GET["id"];
+  if( isset($_POST["id"]) ){
+    $id = $_POST["id"];
     $text = "";
     $active = "";
 
@@ -29,8 +29,8 @@
     $params = array(':id' => $id);
 
 
-    if( isset( $_GET["text"] ) ){
-      $text = $_GET["text"];
+    if( isset( $_POST["text"] ) ){
+      $text = $_POST["text"];
       $text = htmlentities( strip_tags($text) );
       $text = str_replace("\n", "<br>", $text);
 
@@ -39,8 +39,8 @@
       $params["text"] = $text;
     }
 
-    if( isset( $_GET["active"] ) ){
-      $active = ($_GET["active"] == "true") ? 1 : 0;
+    if( isset( $_POST["active"] ) ){
+      $active = ($_POST["active"] == "true") ? 1 : 0;
 
       $data_to_set .= ($data_to_set == "") ? "" : ", ";
       $data_to_set .= "`active` = :active";

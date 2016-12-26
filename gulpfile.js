@@ -1,187 +1,161 @@
-var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    pug  = require('gulp-pug'),
-    argv = require('yargs').argv,
-    rename = require('gulp-rename'),
+/* eslint comma-dangle: 0 */
+"use strict";
 
-    babelify = require('babelify'),
-    browserify = require("browserify"),
-    source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-    gutil = require('gulp-util'),
+// General
+const argv = require("yargs").argv;
+const browserSync = require("browser-sync").create();
+const chalk = require("chalk");
+const gulp = require("gulp");
+const gutil = require("gulp-util");
+const sourcemaps = require("gulp-sourcemaps");
+const watch = require("gulp-watch");
 
-    uglify = require('gulp-uglify'),
-    watch = require('gulp-watch'),
-    sourcemaps = require('gulp-sourcemaps'),
-    browserSync = require('browser-sync').create();
+// SASS
+const autoprefixer = require("gulp-autoprefixer");
+const filter = require("gulp-filter");
+const sass = require("gulp-sass");
+
+// PUG
+const pug = require("gulp-pug");
+
+// JS
+const babelify = require("babelify"); // eslint-disable-line no-unused-vars
+const browserify = require("browserify");
+const buffer = require("vinyl-buffer");
+const rename = require("gulp-rename");
+const source = require("vinyl-source-stream");
+const uglify = require("gulp-uglify");
+const watchify = require("watchify");
 
 
-var dist = !!!(argv.dist || argv.d);
+const dist = !(argv.dist || argv.d);
 
-var sO = {
-  notify: !false,
-  snippetOptions: {
-    rule: {
-      match: /<\/body>/i,
-      fn: function (snippet, match) {
-        return snippet + match;
-      }
-    }
-  },
-};
+const sO = { notify: true, snippetOptions: { rule: { match: /<\/body>/i, fn(snippet, match) { return snippet + match; } } } };
+let server = argv.proxy || argv.p || false;
+let browserSyncClientUrl = argv.nodes || server || "./";
+browserSyncClientUrl = `//${browserSyncClientUrl.toString().replace(/\/node_modules/, "").replace(/\/$/, "").replace(/^http(s)?:\/\//, "")}/node_modules/`;
+if (server) { if ( typeof server === "boolean" ) { server = "localhost"; browserSyncClientUrl = "//localhost/node_modules/"; } sO.proxy = { "target": server }; } else { sO.server = "./"; browserSyncClientUrl = "./node_modules/"; }
+sO.snippetOptions.rule.fn = function() { return `<link rel='stylesheet' href='${browserSyncClientUrl}browser-sync-client-transition/browser-sync-client.min.css' /><script async src='${browserSyncClientUrl}browser-sync-client-transition/browser-sync-client.min.js'></script>`; };
 
-var server = argv.proxy || argv.p || false;
-var browserSyncClientUrl = argv.nodes || server || './';
-    browserSyncClientUrl = browserSyncClientUrl.toString().replace(/\/node_modules/, "").replace(/\/$/, "").replace(/^http(s)?\:\/\//, "")+"/node_modules/";
-    browserSyncClientUrl = "//"+browserSyncClientUrl;
+gulp.task("sass", () => {
+  return gulp.src("./sass/**/*.sass")
+    .pipe(sourcemaps.init())
+    .pipe(sass({ sourcemap: true, style: "compact" }))
+    .pipe(autoprefixer("last 1 version", "> 1%", "ie 8", "ie 7"))
+    .pipe(
+      rename({
+        suffix: ".min",
+      })
+    )
+    .pipe(sourcemaps.write("./"))
+    .pipe(gulp.dest("./css"))
+    .pipe(filter(["**/*.css"]))
+    .pipe(browserSync.stream());
+});
 
-if( server ){
-  if( typeof(server) == "boolean" ){
-    server = "localhost";
-    browserSyncClientUrl = "//localhost/node_modules/";
+gulp.task("pug", () => {
+  return gulp.src("./*.pug")
+    .pipe(
+      pug({
+        "pretty": !dist,
+      })
+    )
+    .pipe(gulp.dest("./"))
+    .pipe(
+      browserSync.stream()
+    );
+});
+
+function mapError(err) {
+  if (err.fileName) {
+    gutil.log(`${chalk.red(err.name)}: ${chalk.yellow(err.fileName.replace(`${__dirname}/src/js/`, ""))}: Line ${chalk.magenta(err.lineNumber)} & Column ${chalk.magenta(err.columnNumber || err.column)}: ${chalk.blue(err.description)}`);
+  } else {
+    // Browserify error..
+    gutil.log(`${chalk.red(err.name)}: ${chalk.yellow(err.message)}`);
   }
-
-  sO.proxy = {
-    "target": server
-  };
-} else {
-  sO.server = './';
-  browserSyncClientUrl = './node_modules/';
 }
 
-sO.snippetOptions.rule.fn = function(snippet, match){
-  return "<link rel='stylesheet' href='" + browserSyncClientUrl + "browser-sync-client-transition/browser-sync-client.min.css' /><script async src='" + browserSyncClientUrl + "browser-sync-client-transition/browser-sync-client.min.js'></script>";
-};
+function scripts(toWatch, path) {
+  const filename = path.split("/").pop();
+  let bundler = browserify(path, {
+    basedir: __dirname,
+    debug: true,
+    cache: {}, // required for watchify
+    packageCache: {}, // required for watchify
+    fullPaths: toWatch, // required to be true only for watchify
+    plugin: [watchify],
+  });
+
+  if (toWatch) {
+    bundler = watchify(bundler);
+  }
+
+  bundler.transform("babelify", { presets: ["es2015", "react"] });
+
+  const rebundle = function() {
+    const timer = Date.now();
+    const showDuration = (t) => {
+      if ( t >= 1000 ) {
+        return `${t / 1000} s`;
+      }
+
+      if ( t <= 1 ) {
+        return `${t * 1000} μs`;
+      }
+
+      return `${t} ms`;
+    };
+
+    const showTime = () => {
+      const t2d = (a) => {
+        return `00${a}`.slice(-2);
+      };
+
+      const now = new Date();
+
+      return `${t2d(now.getHours())}:${t2d(now.getMinutes())}:${t2d(now.getSeconds())}`;
+    };
+
+    const stream = bundler.bundle().on("end", () => {
+      console.log(`[${chalk.grey(showTime())}] Started '${chalk.cyan("scripts")}' ('${chalk.cyan(filename)}')...`);
+    });
+
+    return stream
+      .on("error", mapError)
+      .pipe(source(filename))
+      .pipe(buffer())
+      .pipe(rename({
+        suffix: ".min",
+      }))
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(uglify())
+      .pipe(sourcemaps.write("./"))
+      .pipe(gulp.dest("./dist/js"))
+      .on("end", () => {
+        console.log(`[${chalk.grey(showTime())}] Finished '${chalk.cyan("scripts")}' ('${chalk.cyan(filename)}') after ${chalk.magenta(showDuration(Date.now() - timer))}`);
+      })
+      .pipe(browserSync.stream());
+  };
 
 
-gulp.task('browserSync', function() {
+  bundler.on("update", rebundle);
+  return rebundle();
+}
+
+
+gulp.task("browserSync", () => {
   browserSync.init(sO);
 });
 
-gulp.task('sass', function () {
-  return gulp.src('./sass/**/*.sass')
-    .pipe(sourcemaps.init())
-    .pipe(
-      sass({
-        "outputStyle": (dist) ? "compressed" : "expanded"
-      })
-      .on('error', sass.logError)
-    )
-    .pipe(
-      autoprefixer({
-        browsers: ['last 4 versions'],
-        cascade: false
-      })
-    )
-    .pipe(
-      rename({
-        suffix: '.min'
-      })
-    )
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./css'))
-    .pipe(
-      browserSync.stream({match: '**/*.css'})
-    );
+gulp.task("watch", ["browserSync", "sass"], () => {
+  watch("./sass/**/*.sass", () => { gulp.start("sass"); });
+  watch("./*.pug", () => { gulp.start("pug"); });
+  watch(["./*.html", "./*.php"], () => { browserSync.reload(); });
 });
 
-gulp.task('pug', function () {
-  return gulp.src('./*.pug')
-    .pipe(
-      pug({
-        "pretty": (dist) ? false : true
-      })
-    )
-    .pipe(gulp.dest('./'))
-    .pipe(
-      browserSync.reload({stream: true})
-    );
+gulp.task("watch-scripts", () => {
+  scripts(true, "./js/app.js");
+  scripts(true, "./js/script.js");
 });
 
-gulp.task('js-old', function() {
-  gulp.src(['./js/**/*.js', '!./js/**/*.min.js'])
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(
-      uglify()
-    )
-    .pipe(
-      rename({
-        suffix: '.min'
-      })
-    )
-    .pipe(sourcemaps.write('./'))
-    .pipe(
-      gulp.dest('./dist/js/')
-    )
-    .pipe(
-      browserSync.reload({stream: true})
-    );
-});
-
-gulp.task('js', function () {
-  browserify({entries: './js/main.js', debug: true})
-      .transform("babelify", { presets: ["es2015"] })
-      .bundle()
-      .pipe(source('main.min.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist/js'))
-      .pipe(
-        browserSync.reload({stream: true})
-      );
-
-  browserify({entries: './js/add_cite.js', debug: true})
-      .transform("babelify", { presets: ["es2015"] })
-      .bundle()
-      .pipe(source('add_cite.min.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist/js'))
-      .pipe(
-        browserSync.reload({stream: true})
-      );
-
-  browserify({entries: './js/add_teacher.js', debug: true})
-      .transform("babelify", { presets: ["es2015"] })
-      .bundle()
-      .pipe(source('add_teacher.min.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist/js'))
-      .pipe(
-        browserSync.reload({stream: true})
-      );
-
-  browserify({entries: './js/admin.js', debug: true})
-      .transform("babelify", { presets: ["es2015"] })
-      .bundle()
-      .pipe(source('admin.min.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist/js'))
-      .pipe(
-        browserSync.reload({stream: true})
-      );
-});
-
-
-gulp.task('watch', ['browserSync', 'sass'], function () {
-  watch('./sass/**/*.sass', function(){gulp.start('sass');});
-  watch('./*.pug', function(){gulp.start('pug');});
-  watch(['./js/**/*.js', '!./js/**/*.min.js'], function(){gulp.start('js');});
-  watch(['./*.html', './*.php'], function(){browserSync.reload();});
-});
-
-gulp.task('default', ['browserSync', 'sass', 'pug', 'js', 'watch']);
+gulp.task("default", ["browserSync", "sass", "pug", "watch-scripts", "watch"]);

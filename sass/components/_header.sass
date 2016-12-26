@@ -1,0 +1,59 @@
+header.app-bar
+  width: 100%
+  padding: 0
+  background: $main-color
+  color: $header-text
+  box-shadow: $header-box-shadow
+  z-index: 1
+  box-sizing: border-box
+
+  &.fixed
+    position: fixed
+    top: 1px
+    left: 0
+    margin-top: -1px
+
+  .status-bar
+    display: none
+    width: 100%
+    height: 20px
+    background: $status-bar-color
+
+  nav
+    position: relative
+    width: 100%
+    height: 56px
+
+    & > div
+      position: absolute
+      height: 100%
+
+    .left
+      left: 32px
+
+    .right
+      right: 32px
+
+    .icons
+      &.left
+        left: 12px
+
+      &.right
+        right: 12px
+
+      i
+        vertical-align: middle
+
+      span
+        margin-left: 12px
+
+
+    .title
+      display: none
+
+      @media (min-width: 320px)
+        display: block
+
+
+    span
+      line-height: 56px

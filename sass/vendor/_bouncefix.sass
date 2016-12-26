@@ -1,0 +1,24 @@
+html.standalone
+  height: 100%
+
+  body
+    position: relative
+    height: 100%
+    min-height: 100%
+    padding: 0
+    overflow: hidden
+
+  header.app-bar .status-bar
+    display: block
+
+main.standalone-main
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  overflow: scroll
+  -webkit-overflow-scrolling: touch
+
+  &::-webkit-scrollbar
+    display: none

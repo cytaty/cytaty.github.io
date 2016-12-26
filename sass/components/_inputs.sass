@@ -1,0 +1,142 @@
+.form-group
+  position: relative
+  width: 100%
+  margin-top: 34px
+  float: left
+  clear: left
+
+  .border
+    position: absolute
+    bottom: -1px
+    left: 50%
+    width: 0
+    height: 2px
+    transform: translateX(-50%)
+    transition: width .3s ease-in-out
+    background: $main-color
+
+  textarea ~ .border
+    bottom: 0
+
+  input:not([type='radio']), textarea, .select-group button
+    display: block
+    width: 100%
+    min-width: 100%
+    max-width: 100%
+    padding: 7px 0
+    transition: height .2s ease-in-out
+    border: 0
+    border-bottom: 1px solid $settings-label-text
+    border-radius: 0
+    outline: 0
+    background: transparent
+    font-size: 16px
+    line-height: 1.42857143
+    -webkit-appearance: none
+    resize: none
+
+    &.touched.invalid
+      & ~ .border
+        background: $input-invalid
+
+      & ~ label, & ~ label::after
+        color: $input-invalid
+
+    &:focus
+      & ~ label
+        color: $main-color
+
+      & ~ .border
+        width: 100%
+
+    &.dirty
+      & ~ label
+        color: $settings-label-text
+
+      &:focus
+        & ~ label
+          color: $main-color
+
+    &[required]
+      & ~ label
+        &::after
+          transition: color .3s ease-in-out
+          color: $settings-label-text
+          content: ' *'
+
+      &:focus ~ label
+        &::after
+          color: $required-start-color
+          content: ' *'
+
+  & > label
+    position: absolute
+    top: -22px
+    left: 0
+    padding: 7px 0
+    transform: scale(0.75)
+    transform-origin: top left
+    transition: transform .3s ease-in-out, top .3s ease-in-out, color .3s ease-in-out
+    color: $settings-label-text
+    font-size: 16px
+    line-height: 1.42857143
+    cursor: text
+
+.select-group
+  select
+    width: 100%
+
+  input[type='radio']
+    display: none
+
+  .select-container
+    position: relative
+
+    button
+      text-align: left
+
+      i.material-icons
+        display: inline-block
+        float: right
+        font-size: 20px
+        line-height: 20px
+
+    &.open
+      .select-options-container
+        transition: visibility 0s 0s ease-in-out
+        visibility: visible
+
+        .select-options
+          top: 0
+          opacity: 1
+
+  .select-options-container
+    position: absolute
+    top: 0
+    right: -3px
+    left: -3px
+    height: 150px
+    transition: visibility 0s .2s ease-in-out
+    overflow: auto
+    visibility: hidden
+    z-index: 2
+
+    .select-options
+      position: absolute
+      top: -100%
+      right: 3px
+      left: 3px
+      transition: top .2s ease-in-out, opacity .2s ease-in-out
+      border-radius: 2px
+      background: $select-background
+      line-height: 37px
+      box-shadow: $card-box-shadow
+      opacity: 0
+
+      label
+        display: block
+        padding: 0 8px
+        cursor: pointer
+
+        &:hover, &.current
+          background: $select-hover

@@ -22,7 +22,7 @@ export default class SectionMore extends React.Component {
       return `00${a}`.slice(-2);
     };
 
-    return `${t2d(date.getDate())}.${t2d(date.getMonth() + 1)}.${date.getFullYear()}`;
+    return `${t2d(date.getDate())}.${t2d(date.getMonth())}.${date.getFullYear()}`;
   }
 
   returnInfo(infoText) {

@@ -5,9 +5,12 @@ import Header from "../components/Header";
 import Section from "../components/Section";
 import Settings from "../components/Settings";
 import Snackbar from "../components/Snackbar";
+import Dialog from "../components/Dialog";
 
 import QuotesStore from "../stores/QuotesStore";
 import * as QuotesActions from "../actions/QuotesActions";
+
+import * as DialogActions from "../actions/DialogActions";
 
 export default class Layout extends React.Component {
   constructor() {
@@ -22,6 +25,39 @@ export default class Layout extends React.Component {
     QuotesStore.on("change", this.getQuotes);
 
     QuotesActions.refreshQuotes();
+  }
+
+  componentDidMount() {
+    const checkBrowser = () => {
+      const ua = navigator.userAgent;
+      if (/Android/i.test(ua) && /Chrome/i.test(ua)) {
+        return "Android Chrome";
+      }
+
+      const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+      const webkit = !!ua.match(/WebKit/i);
+      const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+
+      if ( iOSSafari ) {
+        return "iOS Safari";
+      }
+
+      return "";
+    };
+
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) {
+        return parts.pop().split(";").shift();
+      }
+
+      return false;
+    };
+
+    if ( !getCookie("mainPage") && !navigator.standalone ) {
+      DialogActions.show( checkBrowser() );
+    }
   }
 
   componentWillUnmount() {
@@ -54,6 +90,7 @@ export default class Layout extends React.Component {
         <FloatingAB />
         <Settings />
         <Snackbar />
+        <Dialog />
       </div>
     );
   }

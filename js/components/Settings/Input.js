@@ -11,7 +11,6 @@ export default class Input extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleRadio = this.handleRadio.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
     this.clearState = this.clearState.bind(this);
     this.openLabel = this.openLabel.bind(this);
     this.closeLabel = this.closeLabel.bind(this);
@@ -33,7 +32,7 @@ export default class Input extends React.Component {
     SettingsStore.on("settingsChange", this.clearState);
     QuotesStore.on("teachersUpdate", this.getTeachers);
 
-    if ( this.props.type === "select" && !this.iOS() ) {
+    if ( this.props.type === "select" ) {
       const value = this.state.teachers[0];
 
       this.setState({ selectValue: value.name });
@@ -81,38 +80,16 @@ export default class Input extends React.Component {
     }
   }
 
-  iOS() {
-    const iDevices = [
-      "iPad Simulator",
-      "iPhone Simulator",
-      "iPod Simulator",
-      "iPad",
-      "iPhone",
-      "iPod",
-    ];
-
-    if (navigator.platform) {
-      while (iDevices.length) {
-        if (navigator.platform === iDevices.pop()) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
   clearState() {
     this.setState({
       dirty: false,
       touched: false,
       valid: true,
       value: "",
+      selectValue: "",
       radioSelected: 0,
       openSelect: false,
     });
-
-    this.getTeachers();
   }
 
   validate(e) {
@@ -165,18 +142,6 @@ export default class Input extends React.Component {
     this.props.setValue(this.props.id, value.id);
   }
 
-  handleSelect(e) {
-    const selectedOptionNo = e.target.options.selectedIndex;
-    let selectedOption = e.target.options[selectedOptionNo].id;
-    selectedOption = this.state.teachers[selectedOption.substring(selectedOption.lastIndexOf("-") + 1)];
-    this.setState({
-      value: selectedOption,
-      selectValue: e.target.options[selectedOptionNo].value,
-    });
-    this.validate(e);
-    this.props.setValue(this.props.id, selectedOption.id);
-  }
-
   openLabel() {
     this.setState({ openSelect: true });
   }
@@ -210,7 +175,6 @@ export default class Input extends React.Component {
       case "select": // eslint-disable-line
         const options = [];
         const radioOptions = [];
-        const selectOptions = [];
         this.state.teachers.forEach((v, i) => {
           options.push(
             <input onChange={this.handleRadio} name={this.props.id} key={`${this.props.id}-${i}`} id={`${this.props.id}-${i}`} type="radio" checked={i === this.state.radioSelected} />
@@ -224,34 +188,22 @@ export default class Input extends React.Component {
           radioOptions.push(
             <label key={`${this.props.id}-label-${i}`} htmlFor={`${this.props.id}-${i}`} className={className}>{v.name}</label>
           );
-
-          selectOptions.push(
-            <option key={`${this.props.id}-options-${i}`} id={`${this.props.id}-options-${i}`}>{v.name}</option>
-          );
         });
-
-        const selectType = ( this.iOS() ) ? (
-          <select value={this.state.selectValue} onChange={this.handleSelect}>
-            {selectOptions}
-          </select>
-        ) : (
-          <div className={(this.state.openSelect) ? "select-container open" : "select-container"}>
-            <button onBlur={this.closeLabel} onClick={this.openLabel} onFocus={this.openLabel} type="button">
-              {this.state.selectValue}
-              <i className="material-icons">arrow_drop_down</i>
-            </button>
-            <div className="select-options-container">
-              <div className="select-options">
-                {radioOptions}
-              </div>
-            </div>
-          </div>
-        );
 
         return (
           <div className="select-group">
             {options}
-            {selectType}
+            <div className={(this.state.openSelect) ? "select-container open" : "select-container"}>
+              <button onBlur={this.closeLabel} onClick={this.openLabel} onFocus={this.openLabel} type="button">
+                {this.state.selectValue}
+                <i className="material-icons">arrow_drop_down</i>
+              </button>
+              <div className="select-options-container">
+                <div className="select-options">
+                  {radioOptions}
+                </div>
+              </div>
+            </div>
           </div>
         );
       default:

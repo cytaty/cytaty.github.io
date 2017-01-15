@@ -101,6 +101,28 @@ button.raised {
   text-transform: uppercase;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12); }
 
+button.flat {
+  min-width: 88px;
+  height: 36px;
+  padding: 0 8px;
+  transition: background .1s ease-in-out;
+  border: 0;
+  border-radius: 2px;
+  outline: 0;
+  background: none;
+  color: #2196f3;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+  button.flat:active {
+    background: rgba(0, 0, 0, 0.15); }
+  button.flat:focus {
+    background: rgba(0, 0, 0, 0.1); }
+
 header nav button {
   width: 48px;
   height: 100%;
@@ -191,6 +213,48 @@ header nav button {
         #app > div > main section aside .more p.header {
           margin-bottom: 4px;
           color: rgba(0, 0, 0, 0.54); }
+
+.dialog {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .2s ease-in-out, visibility 0s .2s ease-in-out;
+  background: rgba(0, 0, 0, 0.33);
+  opacity: 0;
+  visibility: hidden; }
+  .dialog.visible {
+    opacity: 1;
+    visibility: visible; }
+  .dialog .dialog-box {
+    width: 90%;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12); }
+    .dialog .dialog-box .dialog-main {
+      padding: 24px; }
+      .dialog .dialog-box .dialog-main h2 {
+        margin: 0 0 8px; }
+      .dialog .dialog-box .dialog-main p {
+        margin: 0;
+        margin-bottom: 4px;
+        color: #757575;
+        line-height: 24px; }
+        .dialog .dialog-box .dialog-main p ol {
+          margin: 0;
+          padding: 0; }
+        .dialog .dialog-box .dialog-main p img.apple-icon {
+          height: 24px;
+          transform: translateY(4px); }
+        .dialog .dialog-box .dialog-main p i.material-icons {
+          transform: translateY(6px); }
+    .dialog .dialog-box .dialog-btns {
+      padding: 0 8px 8px;
+      text-align: right; }
 
 .fab-main {
   display: block;
@@ -432,9 +496,6 @@ header.app-bar {
     font-size: 16px;
     line-height: 1.42857143;
     cursor: text; }
-
-.select-group select {
-  width: 100%; }
 
 .select-group input[type='radio'] {
   display: none; }

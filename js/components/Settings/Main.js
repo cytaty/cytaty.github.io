@@ -72,6 +72,7 @@ export default class Main extends React.Component {
   handleQuotesSubmit(e) {
     const allValid = this.isValid(e);
     if ( allValid ) {
+      console.log( this.state.values );
       QuotesActions.createQuote(this.state.values);
       SettingsActions.showSettings(null);
       this.setState({ valid: [], values: [] });

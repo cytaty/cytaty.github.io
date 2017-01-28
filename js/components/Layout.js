@@ -24,6 +24,7 @@ export default class Layout extends React.Component {
   componentWillMount() {
     QuotesStore.on("change", this.getQuotes);
 
+    QuotesActions.refreshTeachers();
     QuotesActions.refreshQuotes();
   }
 

@@ -19,11 +19,24 @@
 
   $quotes = array();
 
+  function getTeacherWithId($id) {
+    global $teachers;
+
+    foreach ($teachers as $key => $teacher) {
+      if ($teacher["id"] == $id) {
+        return $teacher;
+      }
+    }
+    return null;
+  }
+
   foreach ($rows as $row) {
     $data = array(
+      "id" => $row["id"],
       "text" => $row["text"],
-      "dateSaid" => $row["date_said"],
-      "teacher" => $teachers[ $row["teacher_id"]-1 ]["name"]
+      "dateAdded" => $row["date_added"],
+      "info" => $row["info"],
+      "teacher" => getTeacherWithId($row["teacher_id"])["name"],
     );
 
     array_push($quotes, $data);

@@ -126,8 +126,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel='shortcut icon' type='image/x-icon' href='./favicon.ico' />
   <title>Cytaty nauczycieli &alpha;</title>
-  <link rel="stylesheet" href="../css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="../css/style.min.css">
+  <link rel="stylesheet" href="./css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/style.min.css">
 </head>
 <body class="admin">
   <nav class="navbar navbar-default navbar-fixed-top">
@@ -164,6 +164,7 @@
         $text = $value["text"];
         $teacher_id = $value["teacher_id"];
         $who_added = $value["who_added"];
+        $info = $value["info"];
         $teacher = $teachers[$teacher_id]["name"];
         $added = strtotime($value["date_added"]);
 
@@ -174,8 +175,9 @@
           echo '<blockquote class="quote'.$activeClass.'" data-id="'.$id.'">';
           echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
 
+          echo '<p class="add_info"><small>'.$info.'</small></p>';
           echo '<footer>'.$teacher.'</footer>';
-          echo '<span class="label label-info">'.$who_added.'</span>';
+          echo '<span class="label label-info">'.$info.'</span>';
 
           echo '<div class="controls">';
             echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
@@ -227,6 +229,7 @@
             $text = $value["text"];
             $teacher_id = $value["teacher_id"];
             $who_added = $value["who_added"];
+            $info = $value["info"];
             $teacher = $teachers[$teacher_id]["name"];
             $added = strtotime($value["date_added"]);
 
@@ -235,6 +238,7 @@
             echo '<blockquote class="quote'.$activeClass.'" data-id="'.$id.'">';
             echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
 
+            echo '<p class="add_info"><small>'.$info.'</small></p>';
             echo '<footer>'.$teacher.'</footer>';
             echo '<span class="label label-info">'.$who_added.'</span>';
 
@@ -292,6 +296,6 @@
     <?php } ?>
   </main>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="../js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="../dist/js/admin.min.js" charset="utf-8"></script>
+  <script src="./js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="./js/admin.min.js" charset="utf-8"></script>
 </body>

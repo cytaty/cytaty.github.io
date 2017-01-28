@@ -22,16 +22,16 @@
     $teachersToPrint = array();
     $i = 1;
     foreach ($teachers as $teacher) {
-      $teachersToPrint[ $teacher["id"]*1 ] = array(
+	  array_push($teachersToPrint, array(
         "name" => $teacher["name"],
         "img" => $teacher["img"],
         "id" => $teacher["id"]
-      );
+      ));
     }
 
     header('content-type: application/json; charset=utf-8');
     header("access-control-allow-origin: *");
 
-    echo json_encode($teachersToPrint, JSON_FORCE_OBJECT);
+    echo json_encode($teachersToPrint);
   }
 ?>

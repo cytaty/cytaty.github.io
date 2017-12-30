@@ -1,5 +1,5 @@
 <?php
-  header("access-control-allow-origin: *");
+  header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
   require_once 'passwords.php';
 
   try {

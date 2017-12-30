@@ -14,7 +14,7 @@ class QuotesStore extends EventEmitter {
   createQuote(text, teacher, info, name) {
     $.ajax({
       method: "POST",
-      url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_quote.php",
+      url: "https://cytaty.legiec.io/add_quote.php",
       data: {
         text,
         teacher,
@@ -35,7 +35,7 @@ class QuotesStore extends EventEmitter {
   createTeacher(name) {
     $.ajax({
       method: "POST",
-      url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/add_teacher.php",
+      url: "https://cytaty.legiec.io/add_teacher.php",
       data: {
         name,
       },
@@ -52,7 +52,7 @@ class QuotesStore extends EventEmitter {
   refreshQuotes() {
     $.ajax({
       method: "POST",
-      url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/get_quotes.php",
+      url: "https://cytaty.legiec.io/get_quotes.php",
     })
     .done(( msgA ) => {
       const msg = (msgA === Object(msgA)) ? msgA : JSON.parse(msgA);
@@ -68,7 +68,7 @@ class QuotesStore extends EventEmitter {
   refreshTeachers() {
     $.ajax({
       method: "POST",
-      url: "https://skotix.nazwa.pl/domeny_www/b.legiec.eu/cytaty/get_teachers.php",
+      url: "https://cytaty.legiec.io/get_teachers.php",
     })
     .done(( msg ) => {
       this.teachers = msg;

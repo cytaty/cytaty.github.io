@@ -1,8 +1,8 @@
 <?php
-  include '../../passwords.php';
+  // include '../../passwords.php';
 
-  // define("HOST", "localhost");
-  // define("LOGIN", "root");
-  // define("PASSWORD", "admin123");
-  // define("DATABASE", "quotes");
+  define("HOST", getenv("DB_HOST"));
+  define("LOGIN", getenv("DB_LOGIN"));
+  define("PASSWORD", getenv("DB_PASSWORD"));
+  define("DATABASE", getenv("DB_DATABASE"));
 ?>

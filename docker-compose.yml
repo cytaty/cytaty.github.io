@@ -1,0 +1,12 @@
+version: "3"
+services:
+  web:
+    env_file:
+      - .env
+    image: cytaty:latest
+    ports:
+      - "8082:80"
+    networks:
+      - webnet
+networks:
+  webnet:

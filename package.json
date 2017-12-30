@@ -4,11 +4,12 @@
   "description": "My very own personal boilerplate.",
   "main": "index.js",
   "scripts": {
-    "start": "gulp"
+    "start": "gulp",
+    "deploy": "sh ./deploy.sh"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bibixx/my-boilerplate"
+    "url": "https://github.com/cytaty/cytaty.github.io"
   },
   "author": "bibixx",
   "license": "MIT",

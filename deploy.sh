@@ -4,8 +4,7 @@ REPOBRANCH=$npm_package_repository_ghbranch
 
 if [ $REPOURL ] && [ $REPOBRANCH ]
 then
-  npm run build
-  cp -r ./dist ./.publish
+  cp -r ./build ./.publish
   cd .publish
   git init
   git checkout -b $REPOBRANCH

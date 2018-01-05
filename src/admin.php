@@ -154,8 +154,8 @@
     <?php if(isset($_SESSION["auth"]) && $_SESSION["auth"] === true) { ?>
 
     <h2>Nowe cytaty
-      <button class="pull-right btn btn-sm btn-danger"><span class="hidden-xs">Odrzuć wszystkie</span><span class="glyphicon glyphicon-remove visible-xs-inline-block" aria-hidden="true"></span></button>
-      <button class="pull-right btn btn-sm btn-success"><span class="hidden-xs">Przyjmij wszystkie</span><span class="glyphicon glyphicon-ok visible-xs-inline-block" aria-hidden="true"></span></button>
+      <button class="pull-right btn btn-sm btn-danger" id="deny-all"><span class="hidden-xs">Odrzuć wszystkie</span><span class="glyphicon glyphicon-remove visible-xs-inline-block" aria-hidden="true"></span></button>
+      <button class="pull-right btn btn-sm btn-success" id="accept-all"><span class="hidden-xs">Przyjmij wszystkie</span><span class="glyphicon glyphicon-ok visible-xs-inline-block" aria-hidden="true"></span></button>
     </h2>
     <div class="new-quotes">
       <?php
@@ -297,5 +297,5 @@
   </main>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="./js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="./js/admin.min.js" charset="utf-8"></script>
+  <script src="./js/admin.js" charset="utf-8"></script>
 </body>

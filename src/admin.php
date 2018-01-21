@@ -177,7 +177,7 @@
 
           echo '<p class="add_info"><small>'.$info.'</small></p>';
           echo '<footer>'.$teacher.'</footer>';
-          echo '<span class="label label-info">'.$info.'</span>';
+          echo '<span class="label label-info">'.$who_added.'</span>';
 
           echo '<div class="controls">';
             echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';

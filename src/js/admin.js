@@ -1,6 +1,7 @@
 $(document).ready(function() {
-  $("blockquote span[contenteditable='true']").on("input", function(){
-    const $parent = $(this).parent();
+  $("blockquote [contenteditable='true']").on("input", function(){
+    const $parent = $(this).parents(".quote");
+    console.log($parent);
     $parent.removeClass("dirty");
     if( $(this).html() !== $(this).data("start") ){
       $parent.addClass("dirty");
@@ -9,12 +10,14 @@ $(document).ready(function() {
 
   const acceptQuote = function(){
     const $parent = $(this).parents("blockquote");
-    const text = $parent.find("span[contenteditable='true']").html();
+    const text = $parent.find(".js-text-content").html();
+    const info = $parent.find(".js-info-content").html();
     $parent.removeClass("dirty");
 
     if( $(this).html() !== $(this).data("start") ){
       const id = $parent.data("id");
       const dataToSend = {
+        "info": info.replace(/<br>/g, "\n"),
         "text": text.replace(/<br>/g, "\n"),
         "id": id,
         "active": true
@@ -65,12 +68,14 @@ $(document).ready(function() {
 
   $("blockquote.quote .controls .btn-warning").on("click", function(){
     const $parent = $(this).parents("blockquote");
-    const text = $parent.find("span[contenteditable='true']").html();
+    const text = $parent.find(".js-text-content").html();
+    const info = $parent.find(".js-info-content").html();
     $parent.removeClass("dirty");
 
     if( $(this).html() !== $(this).data("start") ){
       const id = $parent.data("id");
       const dataToSend = {
+        "info": info.replace(/<br>/g, "\n"),
         "text": text.replace(/<br>/g, "\n"),
         "id": id
       };

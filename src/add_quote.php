@@ -30,7 +30,7 @@
 
     $info = (isset($_POST["info"])) ? $_POST["info"] : $_POST["date"];
 
-    $rowsQuery = $db->prepare("INSERT INTO `quotes`(`text`, `date_said`, `info`, `teacher_id`, `who_added`) VALUES (:text, :date, :info, :teacher, :name)");
+    $rowsQuery = $db->prepare("INSERT INTO `".QUOTES_TABLE."`(`text`, `date_said`, `info`, `teacher_id`, `who_added`) VALUES (:text, :date, :info, :teacher, :name)");
     $rowsQuery->execute(array(':text' => $text, ':date' => $info, ':info' => $info, ':teacher' => $_POST["teacher"], ':name' => $name));
     $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
 

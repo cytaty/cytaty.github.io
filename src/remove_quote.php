@@ -5,7 +5,7 @@
     $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
 
     if( isset($_POST["id"]) ){
-      $deleteQuery = $db->prepare("DELETE FROM `quotes` WHERE `id` = :id");
+      $deleteQuery = $db->prepare("DELETE FROM `".QUOTES_TABLE."` WHERE `id` = :id");
       $deleteQuery->execute(array(':id' => $_POST["id"]));
 
       echo json_encode(array($id));

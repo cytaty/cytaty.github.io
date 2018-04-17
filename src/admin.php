@@ -15,7 +15,7 @@
       $GLOBALS["user"] = $password;
     }
 
-    $quotesQuery = $db->prepare("SELECT * FROM `quotes` ORDER BY `id` DESC");
+    $quotesQuery = $db->prepare("SELECT * FROM `".QUOTES_TABLE."` ORDER BY `id` DESC");
     $quotesQuery->execute();
     $quotes = $quotesQuery->fetchAll(PDO::FETCH_ASSOC);
 
@@ -173,9 +173,9 @@
 
         if( $added >= $lastLoggedIn && !$active ){
           echo '<blockquote class="quote'.$activeClass.'" data-id="'.$id.'">';
-          echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
+          echo '<span contenteditable="true" class="js-text-content" data-start="'.$text.'">'.$text.'</span>';
 
-          echo '<p class="add_info"><small>'.$info.'</small></p>';
+          echo '<p class="add_info"><small contenteditable="true" class="js-info-content">'.$info.'</small></p>';
           echo '<footer>'.$teacher.'</footer>';
           echo '<span class="label label-info">'.$who_added.'</span>';
 
@@ -237,9 +237,9 @@
             $active = $value["active"];
             $activeClass = ($active) ? "" : ' inactive';
             echo '<blockquote class="quote'.$activeClass.'" data-id="'.$id.'">';
-            echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
+            echo '<span contenteditable="true" class="js-text-content" data-start="'.$text.'">'.$text.'</span>';
 
-            echo '<p class="add_info"><small>'.$info.'</small></p>';
+            echo '<p class="add_info"><small contenteditable="true" class="js-info-content">'.$info.'</small></p>';
             echo '<footer>'.$teacher.'</footer>';
             echo '<span class="label label-info">'.$who_added.'</span>';
 
@@ -275,9 +275,9 @@
             $active = $value["active"];
             $activeClass = ($active) ? "" : ' inactive';
             echo '<blockquote class="quote'.$activeClass.'" data-id="'.$id.'">';
-            echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
+            echo '<span contenteditable="true" class="js-text-content" data-start="'.$text.'">'.$text.'</span>';
 
-            echo '<p class="add_info"><small>'.$info.'</small></p>';
+            echo '<p class="add_info"><small contenteditable="true" class="js-info-content">'.$info.'</small></p>';
             echo '<footer>'.$teacher.'</footer>';
             echo '<span class="label label-info">'.$who_added.'</span>';
 

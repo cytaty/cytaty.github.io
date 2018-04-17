@@ -5,7 +5,7 @@
 
   try {
     $db = new PDO('mysql:host='.HOST.';dbname='.DATABASE.';charset=utf8mb4', LOGIN, PASSWORD);
-    $rowsQuery = $db->prepare("SELECT * FROM `quotes` WHERE `active` = 1 ORDER BY `id` DESC");
+    $rowsQuery = $db->prepare("SELECT * FROM `".QUOTES_TABLE."` WHERE `active` = 1 ORDER BY `id` DESC");
     $rowsQuery->execute();
     $rows = $rowsQuery->fetchAll(PDO::FETCH_ASSOC);
   } catch (PDOException $e) {

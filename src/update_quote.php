@@ -47,8 +47,18 @@
       $params["active"] = $active;
     }
 
+    if( isset( $_POST["info"] ) ){
+      $info = $_POST["info"];
+      $info = htmlentities( strip_tags($info) );
+      $info = str_replace("\n", "<br>", $info);
+
+      $data_to_set .= ($data_to_set == "") ? "" : ", ";
+      $data_to_set .= "`info` = :info";
+      $params["info"] = $info;
+    }
+
     if( $data_to_set !== "" ){
-      $rowsQuery = $db->prepare("UPDATE `quotes` SET $data_to_set WHERE `id` = :id");
+      $rowsQuery = $db->prepare("UPDATE `".QUOTES_TABLE."` SET $data_to_set WHERE `id` = :id");
       $rowsQuery->execute($params);
     }
 

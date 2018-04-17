@@ -218,6 +218,7 @@
     <div class="all">
       <ul class="nav nav-pills" role="tablist">
         <li class="active" role="presentation"><a href="#quotes" aria-controls="quotes" role="tab" data-toggle="tab">Cytaty</a></li>
+        <li role="presentation"><a href="#king" aria-controls="teachers" role="tab" data-toggle="tab">Cytaty Króla</a></li>
         <li role="presentation"><a href="#teachers" aria-controls="teachers" role="tab" data-toggle="tab">Nauczyciele</a></li>
       </ul>
       <div class="tab-content">
@@ -228,6 +229,44 @@
             $id = $value["id"];
             $text = $value["text"];
             $teacher_id = $value["teacher_id"];
+            $who_added = $value["who_added"];
+            $info = $value["info"];
+            $teacher = $teachers[$teacher_id]["name"];
+            $added = strtotime($value["date_added"]);
+
+            $active = $value["active"];
+            $activeClass = ($active) ? "" : ' inactive';
+            echo '<blockquote class="quote'.$activeClass.'" data-id="'.$id.'">';
+            echo '<span contenteditable="true" data-start="'.$text.'">'.$text.'</span>';
+
+            echo '<p class="add_info"><small>'.$info.'</small></p>';
+            echo '<footer>'.$teacher.'</footer>';
+            echo '<span class="label label-info">'.$who_added.'</span>';
+
+            echo '<div class="controls">';
+              echo '<button class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
+              echo '<button class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+              echo '<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+              echo '<button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
+            echo '</div>';
+
+            echo '</blockquote>';
+          }
+
+
+          ?>
+        </div>
+        <div class="tab-pane active" id="king" role="tabpanel">
+          <?php
+
+          foreach ($quotes as $key => $value) {
+            $teacher_id = $value["teacher_id"];
+            if ( $teacher_id != 2 ) {
+              continue;
+            }
+            
+            $id = $value["id"];
+            $text = $value["text"];
             $who_added = $value["who_added"];
             $info = $value["info"];
             $teacher = $teachers[$teacher_id]["name"];

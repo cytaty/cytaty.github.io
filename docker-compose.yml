@@ -8,7 +8,6 @@ services:
       - .env
     networks:
       - backend
-    container_name: cytaty
   nginx:
     build:
       context: .
@@ -20,8 +19,7 @@ services:
       - frontend
       - backend
     ports:
-      - "8080:80"
-    container_name: cytaty    
+      - "8080:80"   
   mysql:
     image: mysql:5.6.40
     networks:
@@ -29,7 +27,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=cytaty
-    container_name: cytaty    
     volumes:
       - ~/db/mysql/data:/var/lib/mysql
       - ~/db/mysql/init:/docker-entrypoint-initdb.d/:ro

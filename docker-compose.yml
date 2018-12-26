@@ -1,15 +1,18 @@
 version: '3'
 services:
   php:
-    build: './php/'
+    build:
+      context: .
+      dockerfile: './php/Dockerfile'
     env_file:
       - .env
     networks:
       - backend
-    volumes:
-      - ./src/:/var/www/html/
-  apache:
-    build: './apache/'
+    container_name: cytaty
+  nginx:
+    build:
+      context: .
+      dockerfile: './nginx/Dockerfile'
     depends_on:
       - php
       - mysql
@@ -18,8 +21,7 @@ services:
       - backend
     ports:
       - "8080:80"
-    volumes:
-      - ./src/:/var/www/html/
+    container_name: cytaty    
   mysql:
     image: mysql:5.6.40
     networks:
@@ -27,6 +29,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=cytaty
+    container_name: cytaty    
     volumes:
       - /Users/bartoszlegiec/Projects/cytaty_db/mysql/data:/var/lib/mysql
       - /Users/bartoszlegiec/Projects/cytaty_db/mysql/init:/docker-entrypoint-initdb.d/:ro

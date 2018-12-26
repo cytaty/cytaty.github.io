@@ -31,8 +31,8 @@ services:
       - MYSQL_DATABASE=cytaty
     container_name: cytaty    
     volumes:
-      - /Users/bartoszlegiec/Projects/cytaty_db/mysql/data:/var/lib/mysql
-      - /Users/bartoszlegiec/Projects/cytaty_db/mysql/init:/docker-entrypoint-initdb.d/:ro
+      - ~/db/mysql/data:/var/lib/mysql
+      - ~/db/mysql/init:/docker-entrypoint-initdb.d/:ro
 networks:
   frontend:
   backend:

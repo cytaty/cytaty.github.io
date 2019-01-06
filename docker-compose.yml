@@ -19,7 +19,7 @@ services:
       - frontend
       - backend
     ports:
-      - "8080:80"
+      - "80:80"
   mysql:
     build:
       context: .
@@ -31,10 +31,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
     volumes:
-      - ~/data/mysql/data:/var/lib/mysql
-      - ~/data/mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - /data/cytatylegiecio/data:/var/lib/mysql
+      - /data/cytatylegiecio/init/init.sql:/docker-entrypoint-initdb.d/init.sql
 networks:
   frontend:
-    # external:
-    #   name: nginx-proxy
+    external:
+      name: nginx-proxy
   backend:

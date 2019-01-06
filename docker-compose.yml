@@ -19,19 +19,22 @@ services:
       - frontend
       - backend
     ports:
-      - "80:80"   
+      - "8080:80"
   mysql:
-    image: mysql:5.6.40
+    build:
+      context: .
+      dockerfile: './mysql/Dockerfile'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     networks:
       - backend
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=cytaty
+      MYSQL_ROOT_PASSWORD: example
     volumes:
-      - ~/db/mysql/data:/var/lib/mysql
-      - ~/db/mysql/init:/docker-entrypoint-initdb.d/:ro
+      - ~/data/mysql/data:/var/lib/mysql
+      - ~/data/mysql/init/init.sql:/docker-entrypoint-initdb.d/init.sql
 networks:
   frontend:
-    external:
-      name: nginx-proxy
+    # external:
+    #   name: nginx-proxy
   backend:

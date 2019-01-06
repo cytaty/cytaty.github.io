@@ -5,7 +5,10 @@ REPOBRANCH=$npm_package_repository_ghbranch
 
 if [ $REPOURL ] && [ $REPOBRANCH ]
 then
-  cp -r ./build ./.publish
+  rm -rf .publish
+  mkdir .publish
+  cp -r ./build/* ./.publish
+  cp -r ./.circleci ./.publish/.circleci
   cd .publish
   git init
   git remote add origin git@github.com:cytaty/cytaty.github.io.git
@@ -16,7 +19,6 @@ then
   git push origin $REPOBRANCH -f
   cd ..
   rm -rf .publish
-
 else
   echo "Please specify origin and branch in package.json"
 fi

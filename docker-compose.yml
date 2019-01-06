@@ -27,8 +27,8 @@ services:
     restart: always
     networks:
       - backend
-    environment:
-      MYSQL_ROOT_PASSWORD: example
+    env_file:
+      - .env
     volumes:
       - /data/cytatylegiecio/data:/var/lib/mysql
       - /data/cytatylegiecio/init/init.sql:/docker-entrypoint-initdb.d/init.sql

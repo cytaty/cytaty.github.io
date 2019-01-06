@@ -7,7 +7,7 @@ jobs:
   build:
     branches:
       only:
-        - master
+        - server
     docker:
       - image: circleci/node:carbon
     working_directory: ~/repo

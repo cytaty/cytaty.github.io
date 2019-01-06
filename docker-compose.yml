@@ -15,11 +15,10 @@ services:
     depends_on:
       - php
       - mysql
+    container_name: cytaty
     networks:
       - frontend
       - backend
-    ports:
-      - "80:80"
   mysql:
     build:
       context: .

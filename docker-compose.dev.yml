@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: './php/Dockerfile'
     container_name: cytaty_php
+    depends_on:
+      - mysql  
     env_file:
       - .env
     networks:
@@ -21,6 +23,18 @@ services:
       - backend
     ports:
       - "8080:80"
+  mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - backend
+    container_name: cytaty_mysql
+    env_file:
+      - .env
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 networks:
   frontend:
     external:

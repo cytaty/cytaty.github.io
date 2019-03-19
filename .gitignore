@@ -56,4 +56,7 @@ $RECYCLE.BIN/
 
 # Npm
 node_modules/
+
+# Project
 .env
+data

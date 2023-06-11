@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPOURL=$(echo $npm_package_repository_url | cut -d '+' -f 2)
-REPOBRANCH=$npm_package_repository_ghbranch
+REPOURL=$(cat package.json | jq -r .repository.url | cut -d '+' -f 2)
+REPOBRANCH=$(cat package.json | jq -r .repository.ghbranch)
 
 if [ $REPOURL ] && [ $REPOBRANCH ]
 then

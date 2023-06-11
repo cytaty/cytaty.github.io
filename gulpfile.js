@@ -39,7 +39,7 @@ const watchify = require("watchify");
 // Constants
 const SOURCE_PATH = "./src";
 const BUILD_PATH = "./build";
-const STATIC_FILES = ["/browserconfig.xml", "/favicon.ico", "/manifest.json", "/img/**", "/js/jquery-3.1.1.min.js", "/js/bouncefix.min.js"]; // relative to /src/
+const STATIC_FILES = ["/browserconfig.xml", "/favicon.ico", "/manifest.json", "/img/**", "/data/**", "/js/jquery-3.1.1.min.js", "/js/bouncefix.min.js"]; // relative to /src/
 const SCRIPTS_TO_WATCH = [`${SOURCE_PATH}/js/script.js`, `${SOURCE_PATH}/js/app.js`];
 const KEEP_FILES = true;
 const OPEN_TAB = argv.open || argv.o;

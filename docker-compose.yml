@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  frontend:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./build:/usr/src/app/build
+    ports:
+      - 3000:3000

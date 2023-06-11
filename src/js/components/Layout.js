@@ -1,6 +1,6 @@
 import React from "react";
 
-import FloatingAB from "../components/FloatingAB";
+// import FloatingAB from "../components/FloatingAB";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import Settings from "../components/Settings";
@@ -88,7 +88,7 @@ export default class Layout extends React.Component {
         <main>
           { quotesList }
         </main>
-        <FloatingAB />
+        {/* <FloatingAB /> */}
         <Settings />
         <Snackbar />
         <Dialog />
